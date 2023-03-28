@@ -47,13 +47,6 @@ class RSAEncryptor:
             if isprime(candidate):
                 return candidate
 
-    def EXP(self, key_size):
-        while True:
-            e = random.randint(2**(key_size-1), 2**key_size - 1)
-            if isprime(e):
-                break
-        return e
-
     def get_private_exponent(self, e, phi):
         return pow(e, -1, phi)
     
