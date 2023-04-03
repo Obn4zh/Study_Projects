@@ -56,37 +56,41 @@ def sign_a_document(way):
     print(f"Хэш:\n{hash_int}\n")
     return hash_int,pub,priv
 
-def sign_doc_save(hash_int,priv):
+def sign_doc_save(hash_int,priv,way_sign):
     sign=pow(hash_int,priv[0],priv[1])
     print(f"Подпись:\n{sign}\n")
-    with open("Путь для записи ЭП", "w") as file:
+    with open(way_sign, "w") as file:
         sign=file.write(str(sign))
     return sign
 
 if __name__ == "__main__":
     way="Путь к документу"
+    way_pub="Путь к первой части публичного ключа(e)"
+    way_pub1="Путь ко второй части публичного ключа(N)"
+    way_sign="Путь к ЭП"
+    
     hash,pubkey,priv=sign_a_document(way)
-
-
     k=input("Есть подпись - 1, нет - 0: ")
     if k=="0":
-        with open("Путь к записи первой части публичного ключа", "w") as file:
+        with open(way_pub, "w") as file:
             file.write(str(pubkey[0]))
 
-        with open("Путь к записи второй части публичного ключа", "w") as file:
+        with open(way_pub1, "w") as file:
             file.write(str(pubkey[1]))
-        x=sign_doc_save(hash,priv)
+        x=sign_doc_save(hash,priv,way_sign)
+    
     elif k=="1":
-        with open("Путь к ЭП") as file:
+        with open(way_sign) as file:
             x = file.read()
         x=int(x)
 
-        with open("Путь к первой части публичного ключа") as file:
+        with open(way_pub) as file:
             public = file.read()
         public=int(public)
 
-        with open("Путь ко второй части публичного ключа") as file:
+        with open(way_pub1) as file:
             public1 = file.read()
+
         public1=int(public1)
         pub_klych=(public,public1)
         check_sign(hash,x,pub_klych)
