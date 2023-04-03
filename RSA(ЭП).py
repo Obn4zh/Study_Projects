@@ -32,7 +32,6 @@ def gen_keys():
 
 def check_sign(hash_int,sign,pub):
     un=pow(sign,pub[0],pub[1])
-    print("___\n",un)
 
     # if un==hash_int%pub[0]: #Модуль нужен если длина ключа маленькая
     if un==hash_int:
