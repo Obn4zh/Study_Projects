@@ -76,7 +76,6 @@ if __name__ == "__main__":
         with open("Путь к записи второй части публичного ключа", "w") as file:
             file.write(str(pubkey[1]))
         x=sign_doc_save(hash,priv)
-        # check_sign(hash,x,pubkey)
     elif k=="1":
         with open("Путь к ЭП") as file:
             x = file.read()
