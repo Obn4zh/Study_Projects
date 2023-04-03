@@ -60,6 +60,6 @@ def sign_a_document(way):
     return hash_int,sign,pub
 
 if __name__ == "__main__":
-    way="D:\\4 курс\\2 семестр\\КМЗИ\\Lab_5(ЭЦП)\\test.docx"
+    way="Путь до документа"
     hash,sign,pubkey=sign_a_document(way)
     check_sign(hash,sign,pubkey)
