@@ -77,7 +77,7 @@ if __name__ == "__main__":
             file.write(str(pubkey[1]))
         x=sign_doc_save(hash,priv)
         # check_sign(hash,x,pubkey)
-    if k=="1":
+    elif k=="1":
         with open("Путь к ЭП") as file:
             x = file.read()
         x=int(x)
