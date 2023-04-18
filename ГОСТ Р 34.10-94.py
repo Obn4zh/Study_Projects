@@ -45,19 +45,19 @@ def gen_keys():
     y=pow(a,x,p)
     print('y:\n',y)
 
-    with open("D:\\4 курс\\2 семестр\КМЗИ\\lab_6(ГОСТ)\\private.pem", "w") as file:
+    with open("private.pem", "w") as file:
         file.write(str(x))
         print('Закрытый ключ записан')
-    with open("D:\\4 курс\\2 семестр\КМЗИ\\lab_6(ГОСТ)\\public.pem", "w") as file:
+    with open("public.pem", "w") as file:
         file.write(str(y))
         print('Открытый ключ записан')
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_a.txt", "w") as file:
+    with open("open_a.txt", "w") as file:
         file.write(str(a))
         print('Открытый параметр a записан')
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_p.txt", "w") as file:
+    with open("open_p.txt", "w") as file:
         file.write(str(p))
         print('Открытый параметр p записан')
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_q.txt", "w") as file:
+    with open("open_q.txt", "w") as file:
         file.write(str(q))
         print('Открытый параметр q записан')
 
@@ -80,13 +80,13 @@ def read_doc(way):
 def send(hash):
     print("___ПОДПИСЬ ДОКУМЕНТА___")
 
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_q.txt") as file:
+    with open("open_q.txt") as file:
         q = file.read()
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_p.txt") as file:
+    with open("open_p.txt") as file:
         p = file.read()
-    with open("D:\\4 курс\\2 семестр\КМЗИ\\lab_6(ГОСТ)\\private.pem") as file:
+    with open("private.pem") as file:
         x = file.read()
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_a.txt") as file:
+    with open("open_a.txt") as file:
         a = file.read()
 
     q,p,x,a=int(q),int(p),int(x),int(a)
@@ -100,9 +100,9 @@ def send(hash):
         hash=1    
     s=(x*r+k*(hash))%q
 
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\r.txt", "w") as file:
+    with open("r.txt", "w") as file:
         file.write(str(r))
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\s.txt", "w") as file:
+    with open("s.txt", "w") as file:
         file.write(str(s))
     print('k:\n',k)
     print('r:\n',r)
@@ -112,18 +112,18 @@ def send(hash):
 def recive(way):
     print("___ПРОВЕРКА ПОДПИСИ___")
 
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_q.txt") as file:
+    with open("open_q.txt") as file:
         q = file.read()
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_p.txt") as file:
+    with open("open_p.txt") as file:
         p = file.read()
-    with open("D:\\4 курс\\2 семестр\КМЗИ\\lab_6(ГОСТ)\\public.pem") as file:
+    with open("public.pem") as file:
         y = file.read()
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\open_a.txt") as file:
+    with open("open_a.txt") as file:
         a = file.read()
 
-    with open("D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\r.txt") as file:
+    with open("r.txt") as file:
         r = file.read()
-    with open("D:\\4 курс\\2 семестр\КМЗИ\\lab_6(ГОСТ)\\s.txt") as file:
+    with open("s.txt") as file:
         s = file.read()
     
     q,p,y,r,s,a=int(q),int(p),int(y),int(r),int(s),int(a)
@@ -144,7 +144,7 @@ def recive(way):
         print("\nПодпись неверна!")
     
 
-way="D:\\4 курс\\2 семестр\\КМЗИ\\lab_6(ГОСТ)\\dok.docx"
+way="dok.docx"
 hash=read_doc(way)
 
 while True:
