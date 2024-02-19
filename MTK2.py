@@ -21,46 +21,16 @@ ArraySpecialLow = ['-', '?', ':', '', '3', 'э', 'ш', 'щ', '8', 'ю', '(', ')'
                    '9', '0', '1', '4', '\'', '5', '7', '=', '2', '/', '6', '+']
 
 
-def MTK2_decode(bytes_mass):
-    text = ""
-    while len(bytes_mass) % 5 != 0:
-        bytes_mass += ' '
-
-    flag = 0
-    for i in range(0, len(bytes_mass), 5):
-        char_kod = bytes_mass[i:i+5]
-        if char_kod == ArrayBytesCodRule[0]:
-            flag = 0
-        elif char_kod == ArrayBytesCodRule[1]:
-            flag = 1
-        elif char_kod == ArrayBytesCodRule[2]:
-            flag = 2
-        elif char_kod == ArrayBytesCodRule[3]:
-            text += ' '
-        elif char_kod == ArrayBytesCodRule[4]:
-            text += '\r'
-        elif char_kod == ArrayBytesCodRule[5]:
-            text += '\n'
-
-        else:
-            for j in range(len(ArrayBytesCod)): 
-                if char_kod == ArrayBytesCod[j]: 
-                    if flag == 0:
-                        text += ArrayLatinUp[j]
-                    elif flag == 1:
-                        text += ArrayRussianUp[j]
-                    elif flag == 2:
-                        text += ArraySpecialUp[j]
-
-    return text
-
-
-
 def MTK2_code(text):
     bytes_mass = ""
     flag = 0
     for i in range(len(text)):
-        if (text[i] in ArrayLatinUp or text[i] in ArrayLatinLow) and flag != 0:
+        if text[i] == 'Ч' or text[i] =='ч':
+            flag = 2
+            bytes_mass += ArrayBytesCodRule[2]
+            # Уникальный код для цифры 4 (без совпадения с символом "Ч")
+            bytes_mass += ArrayBytesCod[17]
+        elif (text[i] in ArrayLatinUp or text[i] in ArrayLatinLow) and flag != 0:
             flag = 0
             bytes_mass += ArrayBytesCodRule[0]
         elif (text[i] in ArrayRussianUp or text[i] in ArrayRussianLow) and flag != 1:
@@ -84,12 +54,46 @@ def MTK2_code(text):
             for j in range(len(ArrayRussianUp)):
                 if text[i] == ArrayRussianUp[j] or text[i] == ArrayRussianLow[j]:
                     bytes_mass += ArrayBytesCod[j]
-        elif flag == 2:
+        elif flag == 2 and text[i] != 'Ч' or text[i] != 'ч':
             for j in range(len(ArraySpecialUp)):
                 if text[i] == ArraySpecialUp[j] or text[i] == ArraySpecialLow[j]:
                     bytes_mass += ArrayBytesCod[j]
 
     return bytes_mass
+
+def MTK2_decode(bytes_mass):
+    text = ""
+    while len(bytes_mass) % 5 != 0:
+        bytes_mass += ' '
+
+    flag = 0
+    for i in range(0, len(bytes_mass), 5):
+        char_kod = bytes_mass[i:i+5]
+        if char_kod == ArrayBytesCodRule[0]:
+            flag = 0
+        elif char_kod == ArrayBytesCodRule[1]:
+            flag = 1
+        elif char_kod == ArrayBytesCodRule[2]:
+            flag = 2
+        elif char_kod == ArrayBytesCodRule[3]:
+            text += ' '
+        elif char_kod == ArrayBytesCodRule[4]:
+            text += '\r'
+        elif char_kod == ArrayBytesCodRule[5]:
+            text += '\n'
+        elif char_kod == ArrayBytesCod[14]:  # код для символа "Ч"
+            text += '4'
+        else:
+            for j in range(len(ArrayBytesCod)):
+                if char_kod == ArrayBytesCod[j]:
+                    if flag == 0:
+                        text += ArrayLatinUp[j]
+                    elif flag == 1:
+                        text += ArrayRussianUp[j]
+                    elif flag == 2:
+                        text += ArraySpecialUp[j]
+
+    return text
 
 
 if __name__ == '__main__':
@@ -98,6 +102,6 @@ if __name__ == '__main__':
     MtK2 = MTK2_code(text)
     print(MtK2)
     text_new = MTK2_decode(MtK2)
-    print('Полученный текст: ',text_new)
+    print('Полученный текст:',text_new)
     print(len(text_new))
 
